@@ -1,0 +1,12 @@
+{
+    "manifest_version": 2,
+    "name": "jut.su automation",
+    "description": "Automatic play, skip, next",
+    "version": "0.0.1",
+    "content_scripts": [
+        {
+            "matches": ["https://jut.su/*"],
+            "js": ["main.js"]
+        }
+    ]
+}
