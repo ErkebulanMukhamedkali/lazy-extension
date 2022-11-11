@@ -2,24 +2,24 @@ const skipOpeningClass = "vjs-overlay-bottom-left"
 const nextEpisodeClass = "vjs-overlay-bottom-right"
 const autoPlayClass = "vjs-big-play-button"
 
-let autoPlayButton = document.getElementsByClassName(autoPlayClass)[0]
+let autoPlayButton = document.querySelector(`.${autoPlayClass}`)
 autoPlayButton.click()
-console.log("clicked play button");
 
-let skipOpeningButton = document.getElementsByClassName(skipOpeningClass)[0]
-let skipOpeningObserver = new MutationObserver(function(){
-    if(skipOpeningButton.style.display != 'none'){
-        skipOpeningButton.click()
-        console.log("clicked skip button");
-    }
-});
-skipOpeningObserver.observe(skipOpeningButton, { attributes: true, childList: true });
+// const fullScreenClass = "vjs-fullscreen-control"
+// let fullScreenButton = document.querySelector(`.${fullScreenClass}`)
+// if(document.fullscreenElement === null) {
+//     fullScreenButton.click()
+// }
 
-let nextEpisodeButton = document.getElementsByClassName(nextEpisodeClass)[0]
-let nextEpisodeObserver = new MutationObserver(function(){
-    if(nextEpisodeButton.style.display != 'none'){
-        nextEpisodeButton.click()
-        console.log("clicked next button")
-    }
+let skipOpeningButton = document.querySelector(`.${skipOpeningClass}`)
+let nextEpisodeButton = document.querySelector(`.${nextEpisodeClass}`)
+
+let observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+    if (mutation.attributeName !== 'class') return;
+    if (!mutation.target.classList.contains('vjs-hidden')) mutation.target.click();
+    })
 });
-nextEpisodeObserver.observe(nextEpisodeButton, { attributes: true, childList: true });
+
+observer.observe(skipOpeningButton, { attributes: true });
+observer.observe(nextEpisodeButton, { attributes: true });
