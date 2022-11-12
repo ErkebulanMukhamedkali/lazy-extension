@@ -5,6 +5,9 @@ const autoPlayClass = "vjs-big-play-button"
 let autoPlayButton = document.querySelector(`.${autoPlayClass}`)
 autoPlayButton.click()
 
+// Focus on video for "F" button work
+document.querySelector('#my-player_html5_api').focus()
+
 // const fullScreenClass = "vjs-fullscreen-control"
 // let fullScreenButton = document.querySelector(`.${fullScreenClass}`)
 // if(document.fullscreenElement === null) {
