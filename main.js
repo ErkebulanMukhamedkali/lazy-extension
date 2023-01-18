@@ -11,7 +11,6 @@ let bigObserver = new MutationObserver(function(mutations, obs) {
     if (skipOpeningButton && nextEpisodeButton) {
         setSkipObserver();
         obs.disconnect();
-        setSkipObserver();
         return;
     }
 })
