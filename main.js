@@ -1,32 +1,36 @@
-const skipOpeningClass = "vjs-overlay-bottom-left"
-const nextEpisodeClass = "vjs-overlay-bottom-right"
-const autoPlayClass = "vjs-big-play-button"
+const skipOpeningClass = ["vjs-overlay-bottom-left", "vjs-overlay-skip-intro"];
+const nextEpisodeClass = ["vjs-overlay-bottom-right", "vjs-overlay-skip-intro"];
+const autoPlayClass = ["vjs-big-play-button"];
 
-let bigObserver = new MutationObserver(function(mutations, obs) {
-    let autoPlayButton = document.querySelector(`.${autoPlayClass}`)
-    if (autoPlayButton) autoPlayButton.click();
-
-    let skipOpeningButton = document.querySelector(`.${skipOpeningClass}`)
-    let nextEpisodeButton = document.querySelector(`.${nextEpisodeClass}`)
-    if (skipOpeningButton && nextEpisodeButton) {
-        setSkipObserver();
-        obs.disconnect();
-        return;
-    }
-})
-bigObserver.observe(document, { childList: true, subtree: true });
-
-function setSkipObserver() {
-    let skipOpeningButton = document.querySelector(`.${skipOpeningClass}`)
-    let nextEpisodeButton = document.querySelector(`.${nextEpisodeClass}`)
-
-    let observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.attributeName !== 'class') return;
-            if (!mutation.target.classList.contains('vjs-hidden')) mutation.target.click();
-        })
+let checkSubset = (parentArray, subsetArray) => {
+    return subsetArray.every((el) => {
+        return parentArray.contains(el);
     });
+};
 
-    observer.observe(skipOpeningButton, { attributes: true });
-    observer.observe(nextEpisodeButton, { attributes: true });
-}
+let bigObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if (mutation.target.id === "my-player" && mutation.type === 'childList') {
+            mutation.addedNodes.forEach(function(node){
+                if (checkSubset(node.classList, autoPlayClass)) {
+                    console.log("Play button appeared");
+                    setTimeout(() => { node.click(); }, 2000);
+                }
+            });
+        }
+        if (checkSubset(mutation.target.classList, skipOpeningClass)) {
+            if (!mutation.target.classList.contains('vjs-hidden')) {
+                console.log("Skip opening button appeared");
+                mutation.target.click();
+            }
+        }
+        if (checkSubset(mutation.target.classList, nextEpisodeClass)) {
+            if (!mutation.target.classList.contains('vjs-hidden')) {
+                console.log("Next episode button appeared!!!");
+                mutation.target.click();
+            }
+        }
+    });
+});
+
+bigObserver.observe(document, { childList: true, subtree: true, attributes: true });
