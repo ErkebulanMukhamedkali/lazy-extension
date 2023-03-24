@@ -14,7 +14,7 @@ let bigObserver = new MutationObserver(function(mutations) {
             mutation.addedNodes.forEach(function(node){
                 if (checkSubset(node.classList, autoPlayClass)) {
                     console.log("Play button appeared");
-                    setTimeout(() => { node.click(); }, 2000);
+                    setTimeout(() => { node.click(); }, 1000);
                 }
             });
         }
