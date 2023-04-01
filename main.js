@@ -8,6 +8,17 @@ let checkSubset = (parentArray, subsetArray) => {
     });
 };
 
+function immidiateClickPlayButton() {
+    let playButton = document.querySelector(`.${autoPlayClass[0]}`);
+    if (playButton) {
+        playButton.click();
+        console.log('Play button just clicked');
+        return;
+    }
+    console.log('No play button appeared after 1 second :(')
+}
+setTimeout(() => { immidiateClickPlayButton() }, 1000);
+
 let bigObserver = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
         if (mutation.target.id === "my-player" && mutation.type === 'childList') {
