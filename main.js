@@ -8,6 +8,12 @@ let checkSubset = (parentArray, subsetArray) => {
     });
 };
 
+document.querySelector("body").onkeydown = (event) => {
+    if (event.code === "KeyF" || event.key === 'f') {
+        document.getElementById('my-player').requestFullscreen()
+    }
+};
+
 function immidiateClickPlayButton() {
     let playButton = document.querySelector(`.${autoPlayClass[0]}`);
     if (playButton) {
